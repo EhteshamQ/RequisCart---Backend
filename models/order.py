@@ -10,7 +10,7 @@ from app import db
 from uuid import uuid4
 from enum import Enum
 from models.base import Base
-from . import order_item_mapper
+from models.order_item_mapper import order_item_mapper
 from sqlalchemy.dialects.postgresql import UUID  # Rename these fields
 
 
@@ -21,6 +21,13 @@ class Status(Enum):
     PROCESSING = "processing"
     PAYMENT_FAILED = "payment_failed"
     CANCELLED = "cancelled"
+
+    @staticmethod
+    def get_matching_value(value: str):
+        for member in Status:
+            if member.value == value:
+                return member
+        raise ValueError(f"No Matching Value for {value}")
 
 
 class Order(Base):

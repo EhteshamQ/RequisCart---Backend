@@ -3,3 +3,5 @@ __pycache__
 .env
 API-Routes.txt
 venv/
+app.log
+TODO-LIST*

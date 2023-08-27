@@ -1,7 +1,7 @@
 from sqlalchemy import Column, ForeignKey
 from app import db
 from uuid import uuid4
-from . import cart_item_mapper
+from .cart_item_mapper import cart_item_mapper
 from models.base import Base
 from sqlalchemy.dialects.postgresql import UUID
 

@@ -14,6 +14,13 @@ class Status(Enum):
     PENDING = "PENDING"
     PROCESSING = "PROCESSING"
 
+    @staticmethod
+    def get_matching_value(value: str):
+        for member in Status:
+            if member.value == value:
+                return member
+        raise ValueError(f"No Matching Value for {value}")
+
 
 class Payment(Base):
     id = Column(UUID(as_uuid=True), default=uuid4, primary_key=True)

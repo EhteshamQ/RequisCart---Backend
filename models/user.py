@@ -10,11 +10,25 @@ class Role(Enum):
     ADMIN = "admin"
     USER = "user"
 
+    @staticmethod
+    def get_matching_value(value: str):
+        for member in Role:
+            if member.value == value:
+                return member
+        raise ValueError(f"No Matching Value for {value}")
+
 
 class Status(Enum):
     ACTIVE = "active"
     INVITED = "invited"
     DELETED = "deleted"
+
+    @staticmethod
+    def get_matching_value(value: str):
+        for member in Status:
+            if member.value == value:
+                return member
+        raise ValueError(f"No Matching Value for {value}")
 
 
 class User(Base):
@@ -25,7 +39,7 @@ class User(Base):
     status = Column(SqlEnum(Status), nullable=False)
     role = Column(SqlEnum(Role), nullable=False)
     picture = Column(LargeBinary, nullable=True)
-    cart = db.relationship("Order", backref="user", lazy=True)
+    cart = db.relationship("Cart", backref="user", lazy=True)
     payment = db.relationship("Payment", backref="user", lazy=True)
     order = db.relationship("Order", backref="user", lazy=True)
     password = Column(String, nullable=False)
