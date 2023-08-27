@@ -1,0 +1,44 @@
+import datetime
+from sqlalchemy import (
+    ForeignKey,
+    Column,
+    DateTime,
+    Float,
+    Enum as SqlEnum,
+)
+from app import db
+from uuid import uuid4
+from enum import Enum
+from models.base import Base
+from . import order_item_mapper
+from sqlalchemy.dialects.postgresql import UUID  # Rename these fields
+
+
+class Status(Enum):
+    DELIVERED = "delivered"
+    IN_TRANSIT = "in_transit"
+    PLACED = "placed"
+    PROCESSING = "processing"
+    PAYMENT_FAILED = "payment_failed"
+    CANCELLED = "cancelled"
+
+
+class Order(Base):
+    id = Column(UUID(as_uuid=True), default=uuid4, primary_key=True)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("user.id"), nullable=False)
+    status = Column(SqlEnum(Status), nullable=False, default=Status.PROCESSING)
+    amount = Column(Float, nullable=False)
+    date = Column(DateTime, default=datetime.datetime.now())
+    payment = db.relationship("Payment", backref="order", lazy=True)
+    order_item_mapper = db.relationship(
+        "Item",
+        secondary=order_item_mapper,
+        lazy="subquery",
+        backref=db.backref("order", lazy=True),
+    )
+
+    def __str__(self):
+        return f"<Order : {self.id} ,  user_id : {self.user_id} >"
+
+    def __repr__(self):
+        return f"<Order : {self.id} ,  user_id : {self.user_id} >"
