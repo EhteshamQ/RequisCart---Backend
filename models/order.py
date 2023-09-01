@@ -15,12 +15,12 @@ from sqlalchemy.dialects.postgresql import UUID  # Rename these fields
 
 
 class Status(Enum):
-    DELIVERED = "delivered"
-    IN_TRANSIT = "in_transit"
-    PLACED = "placed"
-    PROCESSING = "processing"
-    PAYMENT_FAILED = "payment_failed"
-    CANCELLED = "cancelled"
+    DELIVERED = "DELIVERED"
+    IN_TRANSIT = "IN_TRANSIT"
+    PLACED = "PLACED"
+    PROCESSING = "PROCESSING"
+    PAYMENT_FAILED = "PAYMENT_FAILED"
+    CANCELLED = "CANCELLED"
 
     @staticmethod
     def get_matching_value(value: str):

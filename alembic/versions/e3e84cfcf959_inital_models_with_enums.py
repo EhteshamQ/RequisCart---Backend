@@ -1,8 +1,8 @@
-"""Initial Migration with all tables
+"""Inital Models with enums
 
-Revision ID: adbfb2161ae2
+Revision ID: e3e84cfcf959
 Revises: 
-Create Date: 2023-08-27 16:18:17.566649
+Create Date: 2023-09-02 01:54:22.795485
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'adbfb2161ae2'
+revision: str = 'e3e84cfcf959'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -27,6 +27,7 @@ def upgrade() -> None:
     sa.Column('is_available', sa.Boolean(), nullable=False),
     sa.Column('description', sa.String(length=200), nullable=False),
     sa.Column('date_added', sa.DateTime(), nullable=False),
+    sa.Column('is_deleted', sa.Boolean(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('user',
@@ -37,6 +38,7 @@ def upgrade() -> None:
     sa.Column('status', sa.Enum('ACTIVE', 'INVITED', 'DELETED', name='status'), nullable=False),
     sa.Column('role', sa.Enum('ADMIN', 'USER', name='role'), nullable=False),
     sa.Column('picture', sa.LargeBinary(), nullable=True),
+    sa.Column('password', sa.String(), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email')
     )

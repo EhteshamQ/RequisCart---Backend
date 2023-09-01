@@ -1,14 +1,18 @@
-from app import db
 from enum import Enum
 from uuid import uuid4
-from sqlalchemy import Column, String, Enum as SqlEnum, LargeBinary, DateTime
-from models.base import Base
+
+from sqlalchemy import Boolean, Column, DateTime
+from sqlalchemy import Enum as SqlEnum
+from sqlalchemy import LargeBinary, String
 from sqlalchemy.dialects.postgresql import UUID
+
+from app import db
+from models.base import Base
 
 
 class Role(Enum):
-    ADMIN = "admin"
-    USER = "user"
+    ADMIN = "ADMIN"
+    USER = "USER"
 
     @staticmethod
     def get_matching_value(value: str):
@@ -19,9 +23,9 @@ class Role(Enum):
 
 
 class Status(Enum):
-    ACTIVE = "active"
-    INVITED = "invited"
-    DELETED = "deleted"
+    ACTIVE = "ACTIVE"
+    INVITED = "INVITED"
+    DELETED = "DELETED"
 
     @staticmethod
     def get_matching_value(value: str):
@@ -42,10 +46,28 @@ class User(Base):
     cart = db.relationship("Cart", backref="user", lazy=True)
     payment = db.relationship("Payment", backref="user", lazy=True)
     order = db.relationship("Order", backref="user", lazy=True)
-    password = Column(String, nullable=False)
+    password = Column(
+        String,
+        nullable=False,
+    )
+    is_deleted = Column(Boolean, nullable=False, default=False)
 
     def __str__(self):
         return f"<User : {self.id} ,  name : {self.name} >"
 
     def __repr__(self):
         return f"<User : {self.id} ,  name : {self.name} >"
+
+    def to_dict(self) -> dict:
+        return {
+            "id": str(self.id),
+            "picture": self.picture,
+            "role": self.role.name,
+            "status": self.status.name,
+            "date_of_birth": str(self.date_of_birth),
+            "name": self.name,
+        }
+
+    # to do write a method to get user response
+    def get_user_response():
+        pass

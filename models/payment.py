@@ -9,8 +9,8 @@ from sqlalchemy.dialects.postgresql import UUID
 
 
 class Status(Enum):
-    SUCCESS = "success"
-    FAILED = "failed"
+    SUCCESS = "SUCCESS"
+    FAILED = "FAILED"
     PENDING = "PENDING"
     PROCESSING = "PROCESSING"
 

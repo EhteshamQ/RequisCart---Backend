@@ -14,6 +14,7 @@ class Item(Base):
     description = Column(String(200), nullable=False)
     date_added = Column(DateTime, nullable=False, default=datetime.datetime.now())
     images = db.relationship("Image", backref="item", lazy=True)
+    is_deleted = Column(Boolean, nullable=False, default=False)
 
     def __str__(self):
         return f"<Item : {self.id} ,  name : {self.name} >"
